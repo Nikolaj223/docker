@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Docker Study Hub</title>
+    <link rel="stylesheet" href="styles.css?v=20260522-static">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Docker Study Hub">
+        <span class="brand-mark">D</span>
+        <span>Docker Study Hub</span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#path">Маршрут</a>
+        <a href="#articles">Статьи</a>
+        <a href="#security">Аудит</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Учебная лаборатория по контейнерам</p>
+          <h1>От Docker-образа до безопасного nginx-контейнера</h1>
+          <p class="lead">
+            Небольшой стенд для стажировки: два способа доставки сайта,
+            контейнеры на nginx, проверка healthcheck и финальный аудит
+            уязвимостей через Docker Scout.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#path">Посмотреть маршрут</a>
+            <a class="button secondary" href="#security">Результат аудита</a>
+          </div>
+        </div>
+
+        <aside class="lab-panel" aria-label="Сводка лабораторной работы">
+          <div class="panel-top">
+            <span class="status-dot"></span>
+            <span>containers healthy</span>
+          </div>
+          <div class="metric-grid">
+            <article class="metric">
+              <strong>2</strong>
+              <span>Dockerfile: bind mount и copy image</span>
+            </article>
+            <article class="metric">
+              <strong>2</strong>
+              <span>nginx-контейнера в одном compose-проекте</span>
+            </article>
+            <article class="metric">
+              <strong>0</strong>
+              <span>найденных уязвимых пакетов после Scout-аудита</span>
+            </article>
+            <article class="metric">
+              <strong>8080</strong>
+              <span>внутренний непривилегированный порт nginx</span>
+            </article>
+          </div>
+          <div class="pipeline">
+            <span>Dockerfile</span>
+            <span>Image</span>
+            <span>Container</span>
+            <span>Audit</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="path" id="path">
+        <div class="section-heading">
+          <p class="eyebrow">Маршрут обучения</p>
+          <h2>Что происходит внутри проекта</h2>
+        </div>
+        <div class="path-grid">
+          <article class="module-card" data-tone="blue">
+            <span class="module-index">01</span>
+            <h3>Образ</h3>
+            <p>Базовый `nginx:stable-alpine` расширяется конфигом и файлами сайта.</p>
+            <small>Итог: повторяемая сборка</small>
+          </article>
+          <article class="module-card" data-tone="green">
+            <span class="module-index">02</span>
+            <h3>Bind mount</h3>
+            <p>Файлы остаются на хосте и подключаются в контейнер в режиме read-only.</p>
+            <small>Итог: удобно для разработки</small>
+          </article>
+          <article class="module-card" data-tone="amber">
+            <span class="module-index">03</span>
+            <h3>Copy image</h3>
+            <p>Сайт копируется в образ, поэтому контейнер получается автономным.</p>
+            <small>Итог: удобно для доставки</small>
+          </article>
+          <article class="module-card" data-tone="red">
+            <span class="module-index">04</span>
+            <h3>Аудит</h3>
+            <p>Docker Scout проверяет пакеты внутри образа и показывает CVE-риски.</p>
+            <small>Итог: 0C 0H 0M 0L</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="articles" id="articles">
+        <div class="section-heading row-heading">
+          <div>
+            <p class="eyebrow">База знаний</p>
+            <h2>Короткие материалы для разбора</h2>
+          </div>
+          <div class="filters" aria-label="Фильтр статей">
+            <button class="filter-button" type="button" data-filter="all">Все</button>
+            <button class="filter-button" type="button" data-filter="docker">Docker</button>
+            <button class="filter-button" type="button" data-filter="nginx">Nginx</button>
+            <button class="filter-button" type="button" data-filter="security">Security</button>
+          </div>
+        </div>
+        <div class="article-grid">
+          <article class="article-card" data-category="docker">
+            <span>5 мин</span>
+            <h3>Bind mount или COPY</h3>
+            <p>Bind mount ускоряет локальную разработку, COPY делает образ переносимым.</p>
+            <p class="article-more">В задании используются оба подхода: первый показывает связь контейнера с папкой на диске, второй показывает полноценный immutable-образ.</p>
+            <button type="button" data-expand>Развернуть</button>
+          </article>
+          <article class="article-card" data-category="nginx">
+            <span>4 мин</span>
+            <h3>Зачем nginx нужен отдельный конфиг</h3>
+            <p>Конфиг управляет портом, root-директорией, кешированием и заголовками.</p>
+            <p class="article-more">В проекте nginx слушает 8080, отдает `/usr/share/nginx/html` и добавляет security headers к каждому ответу.</p>
+            <button type="button" data-expand>Развернуть</button>
+          </article>
+          <article class="article-card" data-category="security">
+            <span>7 мин</span>
+            <h3>Почему контейнер не запускается от root</h3>
+            <p>Меньше прав внутри контейнера снижает последствия ошибки или взлома.</p>
+            <p class="article-more">Dockerfile переключает процесс на пользователя `nginx`, а compose дополнительно включает no-new-privileges и cap_drop.</p>
+            <button type="button" data-expand>Развернуть</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="practice">
+        <div class="section-heading">
+          <p class="eyebrow">Команды проверки</p>
+          <h2>Проверка стенда</h2>
+        </div>
+        <div class="command-grid">
+          <article class="command-card">
+            <h3>Запуск стенда</h3>
+            <pre><code>docker compose up --build -d</code></pre>
+            <button type="button" data-copy="docker compose up --build -d">Скопировать</button>
+          </article>
+          <article class="command-card">
+            <h3>Проверка контейнеров</h3>
+            <pre><code>docker compose ps</code></pre>
+            <button type="button" data-copy="docker compose ps">Скопировать</button>
+          </article>
+          <article class="command-card">
+            <h3>Аудит образов</h3>
+            <pre><code>docker scout cves nginx-site-bind:secure --only-fixed
+docker scout cves nginx-site-copy:secure --only-fixed</code></pre>
+            <button type="button" data-copy="docker scout cves nginx-site-bind:secure --only-fixed&#10;docker scout cves nginx-site-copy:secure --only-fixed">Скопировать</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="security" id="security">
+        <div>
+          <p class="eyebrow">DevSecOps результат</p>
+          <h2>Контейнеры собраны и просканированы</h2>
+          <p class="section-text">
+            Стенд сохраняет учебную цель задания: два Dockerfile, два варианта
+            запуска nginx и отчет по уязвимостям.
+          </p>
+        </div>
+        <div class="audit-card">
+          <strong>0C 0H 0M 0L</strong>
+          <span>Уязвимые пакеты не обнаружены</span>
+          <div class="audit-bar" aria-hidden="true">
+            <span></span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Docker Study Hub</span>
+      <span>nginx · containers · Docker Scout</span>
+    </footer>
+
+    <script type="module" src="js/app.js?v=20260522-static"></script>
+  </body>
+</html>

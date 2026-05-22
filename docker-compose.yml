@@ -1,0 +1,36 @@
+services:
+  nginx-bind:
+    build:
+      context: .
+      dockerfile: bind-mount/Dockerfile
+    image: nginx-site-bind:secure
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./site:/usr/share/nginx/html:ro
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx:rw,noexec,nosuid,size=64m,mode=1777
+      - /var/run:rw,noexec,nosuid,size=16m,mode=1777
+      - /tmp:rw,noexec,nosuid,size=16m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  nginx-copy:
+    build:
+      context: .
+      dockerfile: copy-image/Dockerfile
+    image: nginx-site-copy:secure
+    ports:
+      - "8081:8080"
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx:rw,noexec,nosuid,size=64m,mode=1777
+      - /var/run:rw,noexec,nosuid,size=16m,mode=1777
+      - /tmp:rw,noexec,nosuid,size=16m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

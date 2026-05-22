@@ -1,5 +1,7 @@
 # Nginx Docker Task
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Nikolaj223/docker)
+
 Учебное задание: собрать nginx со своим сайтом в двух вариантах.
 
 ## Что сдавать наставнику
@@ -77,4 +79,23 @@ docker compose up --build
 ```powershell
 docker scout cves nginx-site-bind:secure --only-fixed
 docker scout cves nginx-site-copy:secure --only-fixed
+```
+
+## Deploy на Render
+
+В репозитории есть `render.yaml`, который разворачивает production-вариант через `copy-image/Dockerfile`.
+
+Что выбрать в Render:
+
+- Web Service
+- Runtime: Docker
+- Dockerfile Path: `copy-image/Dockerfile`
+- Docker Context: `.`
+- Health Check Path: `/health.html`
+- Environment Variable: `PORT=8080`
+
+После deploy Render выдаст публичную ссылку вида:
+
+```text
+https://docker-study-hub.onrender.com
 ```

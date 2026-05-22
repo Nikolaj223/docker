@@ -3,9 +3,6 @@ services:
     name: docker-study-hub
     runtime: docker
     plan: free
-    dockerfilePath: ./copy-image/Dockerfile
+    dockerfilePath: ./render/Dockerfile
     dockerContext: .
     healthCheckPath: /health.html
-    envVars:
-      - key: PORT
-        value: 8080

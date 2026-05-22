@@ -83,16 +83,16 @@ docker scout cves nginx-site-copy:secure --only-fixed
 
 ## Deploy на Render
 
-В репозитории есть `render.yaml`, который разворачивает production-вариант через `copy-image/Dockerfile`.
+В репозитории есть `render.yaml`, который разворачивает production-вариант через `render/Dockerfile`.
 
 Что выбрать в Render:
 
 - Web Service
 - Runtime: Docker
-- Dockerfile Path: `copy-image/Dockerfile`
+- Dockerfile Path: `render/Dockerfile`
 - Docker Context: `.`
 - Health Check Path: `/health.html`
-- Environment Variable: `PORT=8080`
+- Port: `10000`
 
 После deploy Render выдаст публичную ссылку вида:
 

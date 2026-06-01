@@ -4,7 +4,8 @@ FROM nginx:stable-alpine
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY site/ /usr/share/nginx/html/
 
-RUN chown -R nginx:nginx /var/cache/nginx /var/run /usr/share/nginx/html
+RUN apk upgrade --no-cache \
+    && chown -R nginx:nginx /var/cache/nginx /var/run /usr/share/nginx/html
 
 USER nginx
 

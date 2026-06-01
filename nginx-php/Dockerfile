@@ -2,7 +2,8 @@ FROM nginx:stable-alpine
 
 COPY nginx/php-fpm.conf /etc/nginx/conf.d/default.conf
 
-RUN chown -R nginx:nginx /var/cache/nginx /var/run
+RUN apk upgrade --no-cache \
+    && chown -R nginx:nginx /var/cache/nginx /var/run
 
 USER nginx
 

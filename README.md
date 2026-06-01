@@ -110,6 +110,8 @@ Hello 01-06-2026
 ```powershell
 docker scout cves nginx-site-bind:secure --only-fixed
 docker scout cves nginx-site-copy:secure --only-fixed
+docker scout cves nginx-php-gateway:secure --only-fixed
+docker scout cves php-fpm-date:secure --only-fixed
 ```
 
 ## Deploy на Render

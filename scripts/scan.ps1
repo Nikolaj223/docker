@@ -2,7 +2,9 @@ $ErrorActionPreference = "Stop"
 
 $images = @(
   "nginx-site-bind:secure",
-  "nginx-site-copy:secure"
+  "nginx-site-copy:secure",
+  "nginx-php-gateway:secure",
+  "php-fpm-date:secure"
 )
 
 foreach ($image in $images) {

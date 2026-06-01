@@ -1,6 +1,7 @@
 FROM php:8.3-fpm-alpine
 
 RUN apk add --no-cache nginx \
+    && apk upgrade --no-cache \
     && mkdir -p /run/nginx /usr/share/nginx/html/php
 
 COPY render/default.conf /etc/nginx/http.d/default.conf

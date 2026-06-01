@@ -3,7 +3,8 @@ FROM php:8.3-fpm-alpine
 COPY php/php.ini /usr/local/etc/php/conf.d/date-task.ini
 COPY php/index.php /var/www/html/index.php
 
-RUN chown -R www-data:www-data /var/www/html
+RUN apk upgrade --no-cache \
+    && chown -R www-data:www-data /var/www/html
 
 WORKDIR /var/www/html
 

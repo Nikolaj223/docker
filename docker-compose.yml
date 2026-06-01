@@ -34,3 +34,34 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+
+  nginx-php:
+    build:
+      context: .
+      dockerfile: nginx-php/Dockerfile
+    image: nginx-php-gateway:secure
+    ports:
+      - "8082:8080"
+    depends_on:
+      - php-fpm
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx:rw,noexec,nosuid,size=64m,mode=1777
+      - /var/run:rw,noexec,nosuid,size=16m,mode=1777
+      - /tmp:rw,noexec,nosuid,size=16m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: php-fpm/Dockerfile
+    image: php-fpm-date:secure
+    expose:
+      - "9000"
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m,mode=1777
+    security_opt:
+      - no-new-privileges:true

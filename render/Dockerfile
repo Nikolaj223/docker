@@ -1,15 +1,21 @@
-FROM nginx:stable-alpine
+FROM php:8.3-fpm-alpine
 
-COPY render/default.conf /etc/nginx/conf.d/default.conf
+RUN apk add --no-cache nginx \
+    && mkdir -p /run/nginx /usr/share/nginx/html/php
+
+COPY render/default.conf /etc/nginx/http.d/default.conf
+COPY render/start.sh /usr/local/bin/start-render.sh
 COPY site/ /usr/share/nginx/html/
+COPY php/index.php /usr/share/nginx/html/php/index.php
+COPY php/php.ini /usr/local/etc/php/conf.d/date-task.ini
 
-RUN chown -R nginx:nginx /var/cache/nginx /var/run /run /usr/share/nginx/html
-
-USER nginx
+RUN chown -R www-data:www-data /usr/share/nginx/html \
+    && chown -R nginx:nginx /run/nginx /var/lib/nginx /var/log/nginx \
+    && chmod +x /usr/local/bin/start-render.sh
 
 EXPOSE 10000
 
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD wget -q -O /dev/null http://127.0.0.1:10000/health.html || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["start-render.sh"]

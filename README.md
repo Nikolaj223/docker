@@ -19,6 +19,9 @@
 - `site/js/interactions.js` — фильтры, раскрытие статей и копирование команд.
 - `site/js/app.js` — точка входа для фронтенда.
 - `nginx/default.conf` — конфиг nginx с security headers.
+- `nginx/php-fpm.conf` — конфиг nginx для проксирования PHP в `php-fpm`.
+- `php/index.php` — PHP-скрипт из дополнительного задания.
+- `php/php.ini` — включает `short_open_tag`, чтобы работал синтаксис `<? ... ?>`.
 - `scripts/scan.ps1` — сканирование образов через Docker Scout.
 - `SECURITY-AUDIT.md` — краткий отчет по аудиту.
 
@@ -58,6 +61,34 @@ docker compose up --build
 
 - bind mount: http://localhost:8080
 - copy image: http://localhost:8081
+- nginx + php-fpm: http://localhost:8082
+
+## Дополнительное задание: nginx + php-fpm
+
+Вариант сделан через два отдельных сервиса:
+
+- `nginx-php` — принимает HTTP-запросы и передает `.php` в FastCGI.
+- `php-fpm` — выполняет `php/index.php`.
+
+Запуск только дополнительного задания:
+
+```powershell
+docker compose up --build nginx-php php-fpm
+```
+
+Открыть:
+
+```text
+http://localhost:8082
+```
+
+Ожидаемый результат в браузере:
+
+```text
+Hello 01-06-2026
+```
+
+Дата генерируется внутри PHP-контейнера, поэтому в другой день значение будет другим.
 
 ## Что добавлено для DevSecOps
 
@@ -84,6 +115,7 @@ docker scout cves nginx-site-copy:secure --only-fixed
 ## Deploy на Render
 
 В репозитории есть `render.yaml`, который разворачивает production-вариант через `render/Dockerfile`.
+На Render главная страница показывает учебный фронтенд, а `/php` показывает результат дополнительного PHP-задания.
 
 Что выбрать в Render:
 
@@ -98,4 +130,10 @@ docker scout cves nginx-site-copy:secure --only-fixed
 
 ```text
 https://docker-study-hub.onrender.com
+```
+
+PHP-страница будет доступна по адресу:
+
+```text
+https://docker-study-hub.onrender.com/php
 ```

@@ -6,6 +6,10 @@ GitHub: https://github.com/Nikolaj223/docker
 
 Демо PHP-допзадания: https://docker-study-hub-ngr1.onrender.com/php
 
+Health PHP-допзадания: https://docker-study-hub-ngr1.onrender.com/php/health
+
+Status PHP-допзадания: https://docker-study-hub-ngr1.onrender.com/php/status
+
 ## Задание 1: nginx в двух вариантах
 
 Файлы, которые просили прислать:
@@ -34,7 +38,10 @@ docker compose up --build -d nginx-bind nginx-copy
 - `php-fpm/Dockerfile` — PHP-FPM образ.
 - `nginx/php-fpm.conf` — FastCGI-конфиг nginx.
 - `php/index.php` — скрипт с содержимым `<? print "Hello ".date ("d-m-Y"); ?>`.
+- `php/health.php` — healthcheck, который проверяет реальный проход nginx -> PHP-FPM.
+- `php/status.php` — JSON-диагностика: версия PHP, SAPI, timezone и текущий вывод задания.
 - `php/php.ini` — включает `short_open_tag=On`, чтобы короткий PHP-тег `<? ... ?>` выполнялся.
+- `.github/workflows/docker-check.yml` — CI, который собирает compose-проект и проверяет endpoints.
 
 Локальная проверка:
 
@@ -64,6 +71,8 @@ docker compose ps
 - http://localhost:8080 — первое nginx-задание, bind mount.
 - http://localhost:8081 — первое nginx-задание, copy image.
 - http://localhost:8082 — дополнительное задание nginx + php-fpm.
+- http://localhost:8082/php/health — healthcheck PHP-варианта.
+- http://localhost:8082/php/status — JSON-статус PHP-варианта.
 
 ## Render
 
@@ -71,3 +80,5 @@ Render-демо оставляет фронтенд на главной стра
 
 - `/` — учебный фронтенд по Docker.
 - `/php` — вывод PHP-скрипта из дополнительного задания.
+- `/php/health` — healthcheck через PHP-FPM.
+- `/php/status` — JSON-статус PHP-варианта.
